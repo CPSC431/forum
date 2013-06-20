@@ -36,8 +36,14 @@ define('FOPEN_READ_WRITE_CREATE',				'a+b');
 define('FOPEN_WRITE_CREATE_STRICT',				'xb');
 define('FOPEN_READ_WRITE_CREATE_STRICT',		'x+b');
 
-
-define('ENV', strpos($_SERVER['SERVER_NAME'], 'dev') !== FALSE ? 'local' : 'live');
+if (isset($_SERVER['ENV'])) {
+    define('ENV', $_SERVER['ENV']);
+} else {
+    define('ENV',
+        strpos($_SERVER['SERVER_NAME'], 'dev') !== FALSE ||
+        strpos($_SERVER['SERVER_NAME'], 'local')
+        ? 'local' : 'live');
+}
 
 
 /* End of file constants.php */
