@@ -3,3 +3,6 @@
 */logs/!index.html
 */cache/*
 */cache/!index.html
+
+# Going to need different .htaccess files for each system
+.htaccess
