@@ -1,0 +1,50 @@
+{% extends "master.html" %}
+
+{% block content %}
+
+<div class="container-fluid">
+	<div class="form-register">
+	    <h2>Sign Up</h2>
+	    {% include "errors.html" %}
+
+	    {{ form_open(base_url('account/register'))|raw }}
+
+	    {% if not errors.messages %}
+	    	<div class="alert alert-warning"><strong>Note:</strong> All fields are required</div>
+	    {% endif %}
+
+		<div class="control-group">
+		    {{ form_label('Username: ', 'username')|raw }}
+		    {{ form_input('username', set_value('username'))|raw }}
+		</div>
+
+		<div class="control-group">
+		    {{ form_label('Password: ', 'password')|raw }}
+		    {{ form_password('password')|raw }}
+	    </div>
+
+	    <div class="control-group">
+		    {{ form_label('Confirm Password: ', 'password_confirmation')|raw }}
+		    {{ form_password('password_confirmation')|raw }}
+		</div>
+
+	    <div class="control-group">
+		    {{ form_label('Full Name: ', 'full_name')|raw }}
+		    {{ form_input('full_name', set_value('full_name'))|raw }}
+		</div>
+
+	    <div class="control-group">
+		    {{ form_checkbox({name : 'terms', value : 'true', style : 'display:inline'})|raw }}
+		    {{ form_label('I agree with the Terms and Conditions. ', 'terms', { 'style': 'display:inline'})|raw }}
+		</div>
+
+		<div style="margin-top:10px">
+	    	{{ form_submit({name: 'register', value: 'Register', class: 'btn btn-primary'})|raw }}
+		</div>
+
+	    {{ form_close()|raw }}
+
+	</div>
+</div>
+
+{% endblock %}

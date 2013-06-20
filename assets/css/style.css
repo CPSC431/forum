@@ -1,0 +1,194 @@
+.form-signin {
+  max-width: 300px;
+  padding: 19px 29px 29px;
+  margin: 0 auto 20px;
+  background-color: #fff;
+  border: 1px solid #e5e5e5;
+  -webkit-border-radius: 5px;
+     -moz-border-radius: 5px;
+          border-radius: 5px;
+  -webkit-box-shadow: 0 1px 2px rgba(0,0,0,.05);
+     -moz-box-shadow: 0 1px 2px rgba(0,0,0,.05);
+          box-shadow: 0 1px 2px rgba(0,0,0,.05);
+}
+.form-signin .form-signin-heading,
+.form-signin .checkbox {
+  margin-bottom: 10px;
+}
+.form-signin input[type="text"],
+.form-signin input[type="password"] {
+  font-size: 16px;
+  height: auto;
+  margin-bottom: 15px;
+  padding: 7px 9px;
+}
+
+.form-register {
+  max-width: 400px;
+  padding: 19px 29px 29px;
+  margin: 0 auto 20px;
+  background-color: #fff;
+  border: 1px solid #e5e5e5;
+  -webkit-border-radius: 5px;
+     -moz-border-radius: 5px;
+          border-radius: 5px;
+  -webkit-box-shadow: 0 1px 2px rgba(0,0,0,.05);
+     -moz-box-shadow: 0 1px 2px rgba(0,0,0,.05);
+          box-shadow: 0 1px 2px rgba(0,0,0,.05);
+}
+
+::selection {
+    background: #d75959;
+    color: #fff;
+}
+::-moz-selection {
+    background: #d75959;
+    color: #fff;
+}
+
+.posts-main .well, .sidebar-nav {
+  /* Fallback for web browsers that doesn't support RGBa */
+  background: rgb(255, 255, 255);
+  /* RGBa with 0.6 opacity */
+  background: rgba(255, 255, 255, 0.4);
+}
+
+.post-preview h2 a {
+  color:#000;
+}
+
+form textarea#description, form textarea#message {
+  width: 100%;
+  box-sizing: border-box;
+  height: 200px;
+}
+
+.thumbnail-edit .icon-minus-sign {
+  color:red;
+
+}
+
+
+
+/*
+|--------------------------------------------------------------------------
+| From Django Project
+|--------------------------------------------------------------------------
+|
+| CSS Styles from Django project.
+| @todo: Modify to fit
+|
+*/
+
+body {
+    /*background: #ddd url(../img/bg.jpg) repeat top left;*/
+    font-family: 'Ubuntu', 'Helvetica Neue', sans-serif;
+}
+
+h1, h2, h3, h4, h5 {
+
+}
+
+.pagination ul {
+    background-color: #fff;
+}
+
+#splash {
+    margin:0;
+    padding-top:100px;
+    height: 200px;
+    background: #555;
+}
+
+#splash h1 {
+    color: #FFF;
+    font-size: 64px;
+    font-weight: 400;
+    line-height: 1.1em;
+    margin-bottom:20px;
+    font-family: 'Satisfy',cursive;
+}
+
+#htmltagcloud {
+    line-height: 2.4em;
+    word-spacing: normal;
+    letter-spacing: normal;
+    text-decoration: none;
+    text-transform: none;
+    text-align: justify;
+    text-indent: 0ex;
+    background-color: #fff;
+    margin: 0 0 0 0;
+    border: 2px dotted #ddd;
+    padding: 2em;
+}
+
+@media(max-width: 480px) {
+    #splash h1 {
+        font-size: 48px;
+    }
+}
+
+span a {
+    color: #fff;
+}
+
+span a:hover {
+    color: #fff;
+    text-decoration: none;
+}
+
+.main-content-border {
+    border: 5px solid #fff;
+    border-radius: 5px;
+
+    box-shadow: 3px 3px 3px #999;
+}
+
+#map-canvas {
+    height: 250px;
+    border:3px solid #fff;
+}
+
+.post-detail .detail {
+    margin-top:15px;
+}
+
+.review {
+    width:700px;
+}
+
+.review_subject {
+    font-size:20px;
+    font-weight:100;
+    margin-bottom:10px;
+}
+
+.post-name a {
+    font-size:20px;
+    color: #000;
+}
+
+.post-name a:hover {
+    color:#333;
+}
+
+/****************
+ * Forum Styles *
+ ****************/
+
+.forums-container {
+
+}
+
+.forums-container .forum-topic {
+
+}
+
+.forums-container .forum-topic h3 {
+  font-weight:bold;
+}
+
+.forum-container .forum-details {
+
+}

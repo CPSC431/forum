@@ -1,0 +1,9 @@
+<div class="span3">
+  <div class="well sidebar-nav">
+    <ul class="nav nav-list">
+      <li class="nav-header">Navigation</li>
+      <li {% if active == 'forum' %}class="active"{% endif %}><a href="{{ base_url('forum') }}">Forum</a></li>
+      <li {% if active == 'messages' %}class="active"{% endif %}><a href="{{ base_url('messages') }}">Messages</a></li>
+    </ul>
+  </div><!--/.well -->
+</div><!--/span-->

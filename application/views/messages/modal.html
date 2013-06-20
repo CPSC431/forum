@@ -1,0 +1,35 @@
+<!-- Modal -->
+<div id="message-modal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="messageModalLabel" aria-hidden="true">
+  <div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+    <h3 id="messageModalLabel">Send a Message</h3>
+  </div>
+  <div class="modal-body">
+
+  	<div id="message-status"></div>
+
+  	{{ form_open('messages/send', { id: 'message-form' })|raw }}
+
+  		<div class="control-group">
+	  		{{ form_label('To:', 'to')|raw }}
+	  		{{ form_input({ name: 'to', id: 'to' })|raw }}
+  		</div>
+
+  		<div class="control-group">
+	  		{{ form_label('Subject:', 'subject')|raw }}
+	  		{{ form_input({ name: 'subject', id: 'subject' })|raw }}
+  		</div>
+
+  		<div class="control-group">
+	  		{{ form_label('Message:', 'message')|raw }}
+	  		{{ form_textarea({ name: 'message', id: 'message' })|raw }}
+  		</div>
+
+  	{{ form_close()|raw }}
+
+  </div>
+  <div class="modal-footer">
+    <button class="btn" data-dismiss="modal" aria-hidden="true" id="close-message">Close</button>
+    <button class="btn btn-primary" id="submit-message"><span id="message-form-spinner"></span>Save changes</button>
+  </div>
+</div>

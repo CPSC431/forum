@@ -1,0 +1,109 @@
+{% extends "master.html" %}
+
+{% block content %}
+	{% include "sidebar.html" %}
+
+	<div class="span9">
+		<h1>Messages</h1>
+		<div id="message-form-status"></div>
+		<ul class="nav nav-pills">
+			<li {% if mailbox == 'inbox' %} class="active" {% endif %}><a href="{{ base_url('messages/inbox') }}">Inbox</a></li>
+			<li {% if mailbox == 'sent' %} class="active" {% endif %}><a href="{{ base_url('messages/sent') }}">Sent</a></li>
+		</ul>
+
+		{% if messages|length and messages.exists() %}
+			<table class="table table-striped table-bordered table-hover">
+				<thead>
+					<tr>
+						<th><i class="icon-cog"></i></th>
+						<th><i class="icon-user"></i> {% if mailbox == 'inbox' %}From{% else %}To{% endif %}</th>
+						<th><i class="icon-align-left"></i> Subject</th>
+						<th><i class="icon-time"></i> Time</th>
+					</tr>
+				</thead>
+				<tbody>
+
+					{% for message in messages %}
+					<tr>
+						<td>
+							<input type="checkbox" class="message-select" name="selected_messages[]" value="{{ message.id }}" id="message-{{ message.id }}" />
+							&nbsp;
+							<a
+								class="message-user"
+								{% if mailbox == 'inbox' %}
+									data-username="{{ message.sender_user.username }}"
+								{% else %}
+									data-username="{{ message.receiver_user.username }}"
+								{% endif %}
+								href="#"
+							>
+								<i class="icon-mail-reply" title="Reply"></i>
+							</a>
+						</td>
+						<td>
+							{% if message.isUnread(get_userdata('user').id) %}
+								<i class="icon-circle" style="color:#0088cc"></i>
+							{% endif %}
+
+							{% if mailbox == 'inbox' %}
+								{% if message.isUnread(get_userdata('user').id) %}
+									<strong>{{ message.sender_user.username }}</strong>
+								{% else %}
+									{{ message.sender_user.username }}
+								{% endif %}
+							{% else %}
+								{% if message.isUnread(get_userdata('user').id) %}
+									<strong>{{ message.receiver_user.username }}</strong>
+								{% else %}
+									{{ message.receiver_user.username }}
+								{% endif %}
+							{% endif %}
+
+						</td>
+						<td>
+							<a href="{{ message.url()|raw }}">
+								{% if message.isUnread(get_userdata('user').id) %}
+									<strong>{{ message.subject }}</strong>
+								{% else %}
+									{{ message.subject }}
+								{% endif %}
+							</a>
+						</td>
+						<td>
+							<a href="{{ message.url()|raw }}">
+								{% if message.isUnread(get_userdata('user').id) %}
+									<strong>{{ message.created_at|date('F jS, Y g:i A') }}</strong>
+								{% else %}
+									{{ message.created_at|date('F jS, Y g:i A') }}
+								{% endif %}
+							</a>
+						</td>
+					</tr>
+					{% endfor %}
+
+				</tbody>
+			</table>
+		{% else %}
+			<div class="alert alert-warning">No messages yet...</div>
+		{% endif %}
+
+		<!-- Button to trigger modal -->
+		<div class="form-actions">
+			{{ form_open(base_url('messages/delete'), { id: 'message-actions' })|raw }}
+				<a href="#message-modal" role="button" class="btn btn-success btn-large" data-toggle="modal">Send a Message</a>
+				<a
+					href="#delete-messages"
+					role="button"
+					class="btn btn-danger btn-large hide"
+					id="delete-messages"
+					data-redirect="{{ redirect }}"
+				>
+					<i class="icon-trash"></i> Delete Messages
+				</a>
+			{{ form_close()|raw }}
+		</div>
+	</div>
+
+	{% include "messages/modal.html" %}
+
+{% endblock %}

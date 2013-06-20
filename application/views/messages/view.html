@@ -1,0 +1,56 @@
+{% extends "master.html" %}
+
+{% block content %}
+	{% include "sidebar.html" %}
+
+	<div class="span9">
+		<h1>{{ message.subject }}</h1>
+		<div id="message-form-status"></div>
+
+		<p>
+			<i class="icon-user"></i>
+			{% if mailbox == 'inbox' %}
+			{{ message.sender_user.username }}
+			{% else %}
+			{{ message.receiver_user.username }}
+			{% endif %}
+		</p>
+
+		<p>
+			<i class="icon-align-left"></i>
+			{{ message.message }}
+		</p>
+
+		<div class="form-actions">
+			{{ form_open(base_url('messages/delete'), { id: 'message-actions' })|raw }}
+				<a href="{{ redirect }}" class="btn btn-large">&laquo; Back</a>
+				<a
+					class="message-user btn btn-primary btn-large"
+					{% if mailbox == 'inbox' %}
+						data-username="{{ message.sender_user.username }}"
+					{% else %}
+						data-username="{{ message.receiver_user.username }}"
+					{% endif %}
+					href="#"
+				>
+					<i class="icon-mail-reply" title="Reply"></i> Reply
+				</a>
+
+				<a
+					href="#delete-messages"
+					role="button"
+					class="btn btn-danger btn-large"
+					id="delete-messages"
+					data-message-id="{{ message.id }}"
+					data-redirect="{{ redirect }}"
+				>
+					<i class="icon-trash"></i> Delete Message
+				</a>
+			{{ form_close()|raw }}
+		</div>
+
+	</div>
+
+	{% include "messages/modal.html" %}
+
+{% endblock %}

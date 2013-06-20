@@ -1,0 +1,27 @@
+{% extends "master.html" %}
+
+{% block content %}
+
+  {# <form action="account/login" method="post" class="form-signin"> #}
+
+  {{ form_open('account/login', { class: 'form-signin' })|raw }}
+    {# Form::token() #}
+    <h2 class="form-signin-heading">Please sign in</h2>
+
+    {% if error %}
+      <div class="alert alert-error"><h4>Uh oh!</h4> {{ error }}</div>
+    {% endif %}
+
+    {{ form_input({name : 'username', id : 'username', class : 'input-block-level', placeholder : 'Username'})|raw }}
+    {{ form_password({name : 'password', id : 'password', class : 'input-block-level', placeholder : 'Password'})|raw }}
+
+    {{ form_checkbox({name : 'remember', value : 'true', checked : true, style : 'display:inline'})|raw }}
+    {{ form_label('Remember me', 'remember', {style : 'display:inline'})|raw }}
+
+    <div style="margin-top:10px">
+      <button class="btn btn-large btn-primary" type="submit">Sign in</button>
+    </div>
+
+  {{ form_close()|raw }}
+
+{% endblock %}
