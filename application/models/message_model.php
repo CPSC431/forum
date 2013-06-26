@@ -1,6 +1,6 @@
 <?php
 
-class Message extends DataMapper
+class Message_Model extends DataMapper
 {
     public $table = 'mailbox';
 
@@ -11,7 +11,7 @@ class Message extends DataMapper
 
     public function isUnread($user_id)
     {
-        return ($this->receiver == $user_id && strtotime($this->receiver_read_at) < 0);
+        return ($this->receiver == $user_id && $this->receiver_read_at == '0000-00-00 00:00:00');
     }
 
     public function get_single_message($id, $user_id)

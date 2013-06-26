@@ -8,7 +8,7 @@ class Account extends MY_Controller
     {
         parent::__construct();
 
-        $this->user = new User();
+        $this->user = new User_Model;
 
         $this->load->library('bcrypt');
     }

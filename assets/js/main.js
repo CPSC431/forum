@@ -1,6 +1,14 @@
 // function:
 (function(){
 
+    $('#reply').click(function(e) {
+      e.preventDefault();
+
+      $(this).hide();
+
+      $('#reply-container').show(500);
+    });
+
     $('a.message-user').click(function(e) {
       e.preventDefault();
 

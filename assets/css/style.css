@@ -192,3 +192,7 @@ span a:hover {
 .forum-container .forum-details {
 
 }
+
+#reply-container {
+  display:none;
+}

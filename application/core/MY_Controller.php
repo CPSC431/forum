@@ -11,14 +11,21 @@ class MY_Controller extends CI_Controller {
     {
         parent::__construct();
 
+        if ($this->input->get('profiler'))
+            $this->output->enable_profiler(TRUE);
+
         $this->load->library('form_validation');
         $this->load->database();
 
         $this->load->library('twig');
+        $this->load->helper('date');
 
         $this->twig->add_function('base_url');
         $this->twig->add_function('get_userdata');
         $this->twig->add_function('form_open');
+        $this->twig->add_function('timespan');
+        $this->twig->add_function('now');
+        $this->twig->add_function('validation_errors');
 
 
         // Gather info about the request
@@ -28,7 +35,7 @@ class MY_Controller extends CI_Controller {
         $this->_method = $this->router->fetch_method();
     }
 
-    public function login_user(User $user)
+    public function login_user(User_Model $user)
     {
         $this->session->set_userdata('user', array(
             'id'        => $user->id,

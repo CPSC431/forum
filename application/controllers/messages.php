@@ -8,8 +8,8 @@ class Messages extends MY_Controller
     {
         parent::__construct();
 
-        $this->user_model    = new User();
-        $this->message_model = new Message();
+        $this->user_model    = new User_Model;
+        $this->message_model = new Message_Model;
 
         // All paths in this controller require an active, authenticated session
         $this->check_for_login();
@@ -83,8 +83,12 @@ class Messages extends MY_Controller
             'sender_deleted_at' => null,
         ));
 
-        foreach ($messages as &$message)
-            $message->receiver_user = $this->user_model->get_where(array('id' => $message->receiver));
+        foreach ($messages as &$message) {
+            // Clone the user model to provide a separate instance
+            $user_model_instance = clone $this->user_model;
+
+            $message->receiver_user = $user_model_instance->get_where(array('id' => $message->receiver));
+        }
 
         $this->twig->display('messages/index.html', array(
             'messages' => $messages,

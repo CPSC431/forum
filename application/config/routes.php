@@ -41,6 +41,9 @@
 $route['default_controller'] = "welcome";
 $route['404_override'] = '';
 
+$route['forum/(:any)'] = 'forum/view/$1';
+$route['threads/(:num)'] = 'threads/index/$1';
+
 
 /* End of file routes.php */
 /* Location: ./application/config/routes.php */

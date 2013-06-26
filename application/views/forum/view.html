@@ -1,0 +1,48 @@
+{% extends "master.html" %}
+
+{% block content %}
+	{% include "sidebar.html" %}
+
+	<div class="span9">
+		<h1>{{ forum.name }}</h1>
+		<p>{{ forum.description }}</p>
+
+		<div class="forums-container">
+			
+			<div class="row-fluid">
+				
+				<table class="table table-striped">
+					<thead>
+						<tr>
+							<th>Topic</th>
+							<th>Started By</th>
+							<th>Stats</th>
+							<th>Latest Post</th>
+						</tr>
+					</thead>
+					<tbody>
+						{% for thread in threads %}
+						<tr>
+							<td><a href="{{ thread.url }}">{{ thread.subject }}</a></td>
+							<td>{{ thread.user.username }}</td>
+							<td>{{ thread.posts.count }}</td>
+							<td>
+								{% if thread.latest_post.id %}
+									By <strong>{{ thread.latest_post.user.username }}</strong>
+									{{ timespan(strtotime(thread.latest_post.updated_at))}} ago
+								{% else %}
+									<em>No posts yet...</em>
+								{% endif %}
+							</td>
+						</tr>
+						{% endfor %}
+					</tbody>
+				</table>
+
+				<a href="{{ base_url('threads/create') }}?forum={{ forum.id }}" class="btn btn-success"><i class="icon-plus"></i> Create a Thread</a>
+			</div>
+			
+		</div>
+	</div>
+
+{% endblock %}

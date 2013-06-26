@@ -1,0 +1,33 @@
+{% extends "master.html" %}
+
+{% block content %}
+	{% include "sidebar.html" %}
+
+	<div class="span9">
+		<h1>{{ thread.subject }}</h1>
+
+		<div class="post-row row-fluid">
+			{% if validation_errors %}
+			<div class="alert alert-error">{{ validation_errors|raw }}</div>
+			{% endif %}
+			<a href="#" class="btn btn-success" id="reply"><i class="icon-plus"></i> Reply</a>
+			<div id="reply-container">
+				{{ form_open_multipart(base_url('posts/create') ~ '?thread=' ~ thread.id)|raw }}
+
+				{{ form_label('Your post:', 'content')|raw }}
+				{{ form_textarea({ name: 'content', id: 'content', style: 'width:500px;height:200px', value: set_value('content') })|raw }}
+
+				{{ form_label('Attach file:', 'file')|raw }}
+				{{ form_upload({ name: 'file', id: 'file' })|raw }}
+
+				<div class="form-actions">
+				{{ form_submit({ name: 'submit', id: 'submit', class: 'btn btn-primary', value: 'Post Reply' })|raw }}
+				</div>
+
+				{{ form_close()|raw }}
+			</div>
+		</div>
+			
+	</div>
+
+{% endblock %}
