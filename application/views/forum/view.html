@@ -25,7 +25,7 @@
 						<tr>
 							<td><a href="{{ thread.url }}">{{ thread.subject }}</a></td>
 							<td>{{ thread.user.username }}</td>
-							<td>{{ thread.posts.count }}</td>
+							<td>Posts: {{ thread.posts.count }}</td>
 							<td>
 								{% if thread.latest_post.id %}
 									By <strong>{{ thread.latest_post.user.username }}</strong>

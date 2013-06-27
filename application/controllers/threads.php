@@ -21,10 +21,14 @@ class Threads extends MY_Controller
     {
         $thread = $this->thread_model->where('id', $id)->get(1);
 
+        $posts = $thread->posts();
+
         $this->twig->display('threads/index.html', array(
             'active' => 'forum',
             'thread' => $thread,
-            'validation_errors' => $this->session->flashdata('validation_errors')
+            'validation_errors' => $this->session->flashdata('validation_errors'),
+            'old_data' => $this->session->flashdata('old_data'),
+            'posts' => $posts,
         ));
     }
 

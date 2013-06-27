@@ -27,22 +27,24 @@ class Posts extends MY_Controller
             redirect($_SERVER['HTTP_REFERER']);
         }
 
-        // if ( strlen($this->input->post('content')) < 1) {
-        //     $this->session->set_flashdata('alert', array(
-        //         'class'   => 'alert-error',
-        //         'message' => 'You cannot insert an empty post.',
-        //     ));
-        //     redirect($_SERVER['HTTP_REFERER']);
-        // }
-
-        $this->form_validation->set_rules('content', 'Content', 'trim|required|min_length[100]|xss_clean');
+        $this->form_validation->set_rules('content', 'Content', 'trim|required|min_length[1]|xss_clean');
 
         if ( ! $this->form_validation->run()) {
             $this->session->set_flashdata('validation_errors', validation_errors());
+            $this->session->set_flashdata('old_data', $this->input->post());
             redirect($_SERVER['HTTP_REFERER']);
-        } else {
-            die('h');
         }
+
+        $post = $this->post_model;
+
+        $post->thread_id = $this->input->get('thread');
+        $post->user_id = $this->user('id');
+        $post->content = $this->input->post('content');
+
+        $post->updated_at = date("Y-m-d H:i:s");
+        $post->created_at = date("Y-m-d H:i:s");
+
+        $post->save();
     }
 
 }
