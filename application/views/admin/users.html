@@ -1,0 +1,36 @@
+{% extends "master.html" %}
+
+{% block content %}
+    <h1><i class="icon-cog"></i> Administration</h1>
+    <ul class="nav nav-pills">
+        <li><a href="{{ base_url('admin') }}">Forums</a></li>
+        <li class="active"><a href="{{ base_url('admin/users') }}">Users</a></li>
+    </ul>
+    <table class="table table-bordered table-hover table-striped" style="background-color:#fff">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th><i class="icon-user"></i> Username</th>
+                <th><i class="icon-font"></i> Name</th>
+                <th><i class="icon-align-left"></i> Posts</th>
+                <th style="width:250px"><i class="icon-cog"></i></th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for user in users %}
+                <tr>
+                    <td>{{ user.id }}</td>
+                    <td>{{ user.username }}</td>
+                    <td>{{ user.full_name }}</td>
+                    <td>post count</td>
+                    <td>
+                        <a class="btn btn-success" href="{{ base_url('admin/user_action/reinstate') ~ '/' ~ user.id }}">Reinstate</a>
+                        <a class="btn btn-warning" href="{{ base_url('admin/user_action/ban') ~ '/' ~ user.id }}">Ban</a>
+                        <a class="btn btn-danger" href="{{ base_url('admin/user_action/delete') ~ '/' ~ user.id }}" onclick="javascript:return confirm('Are you sure you wish to delete this user?')">Remove</a>
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+{% endblock %}

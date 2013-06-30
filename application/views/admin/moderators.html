@@ -3,8 +3,8 @@
 {% block content %}
     <h1><i class="icon-cog"></i> Moderators of {{ forum.name }}</h1>
     <ul class="nav nav-pills">
-        <li><a href="/admin">Forums</a></li>
-        <li><a href="/admin/users">Users</a></li>
+        <li><a href="{{ base_url('admin') }}">Forums</a></li>
+        <li><a href="{{ base_url('admin/users') }}">Users</a></li>
     </ul>
 
     <table class="table table-bordered table-hover table-striped" style="background-color:#fff">
@@ -28,7 +28,7 @@
                             class="btn btn-danger"
                             href="{{ base_url('admin/moderators/delete?user_id=') ~ moderator.user_id ~ '&forum_id=' ~ forum.id }}"
                             onclick="javascript:return confirm('Are you sure you wish to remove this user\'s moderator privileges?')"
-                        ><i class="icon-trash icon-white"></i></a>
+                        >Remove</a>
                     </td>
                 </tr>
             {% endfor %}

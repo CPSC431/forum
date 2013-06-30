@@ -21,6 +21,17 @@ class Account extends MY_Controller
 
             $user->where('username', $this->input->post('username', true))->get();
 
+            if ($user->deleted_at != '0000-00-00 00:00:00') {
+                $this->session->set_flashdata('alert', array(
+                    'class'   => 'alert-error',
+                    'message' => 'Sorry, your account has been removed from the forum.'
+                ));
+
+                redirect(base_url('account/login'));
+
+                return false;
+            }
+
             $salted_password = $this->input->post('password') . $this->config->item('encryption_key');
 
             if ($this->bcrypt->check_password($salted_password, $user->password)) {

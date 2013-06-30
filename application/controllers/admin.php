@@ -73,6 +73,97 @@ class Admin extends MY_Controller
         }
     }
 
+    public function users()
+    {
+        $users = $this->user_model
+            ->where_not_in('id', $this->user('id'))
+            ->where('deleted_at', null)
+            ->get();
+
+        $this->twig->display('admin/users.html', array(
+            'admin' => true,
+            'users' => $users,
+        ));
+    }
+
+    public function user_action($action, $id)
+    {
+        if ($action == 'ban') {
+
+            $user = $this->user_model->where('id', $id)->get(1);
+
+            if ($user->exists()) {
+
+                $forums = $this->forum_model->get();
+
+                foreach ($forums as $forum) {
+
+                    $banEntry = clone $this->user_access_model;
+
+                    $banEntry->user_id = $user->id;
+                    $banEntry->forum_id = $forum->id;
+                    $banEntry->access = 'banned';
+                    $banEntry->updated_at = date("Y-m-d H:i:s");
+                    $banEntry->created_at = date("Y-m-d H:i:s");
+
+                    $banEntry->save();
+                }
+
+                $this->session->set_flashdata('alert', array(
+                    'class'   => 'alert-success',
+                    'message' => "{$user->username} banned from all forums."
+                ));
+
+                redirect(base_url('admin/users'));
+            }
+
+        } else if ($action == 'reinstate') {
+
+            $user = $this->user_model->where('id', $id)->get(1);
+
+            if ($user->exists()) {
+
+                $banEntries = $this->user_access_model->where('user_id', $id)->where('access', 'banned')->get();
+
+                foreach ($banEntries as $banEntry) {
+
+                    $banEntry->delete();
+                }
+
+                $this->session->set_flashdata('alert', array(
+                    'class'   => 'alert-success',
+                    'message' => "{$user->username} has been reinstated in all forums."
+                ));
+
+                redirect(base_url('admin/users'));
+            }
+
+        } else if ($action == 'delete') {
+            $user = $this->user_model->where('id', $id)->get(1);
+
+            if ($user->exists()) {
+                $user->deleted_at = date("Y-m-d H:i:s");
+
+                $user->save();
+
+                $this->session->set_flashdata('alert', array(
+                    'class'   => 'alert-success',
+                    'message' => "{$user->username} removed successfully. This will deny the user the next time that they try to login."
+                ));
+
+                redirect(base_url('admin/users'));
+
+            } else {
+                $this->session->set_flashdata('alert', array(
+                    'class'   => 'alert-error',
+                    'message' => "The user specified does not exist."
+                ));
+
+                redirect(base_url('admin/users'));
+            }
+        }
+    }
+
     public function user_list()
     {
         if ($this->input->is_ajax_request()) {
@@ -147,13 +238,31 @@ class Admin extends MY_Controller
 
                     redirect(base_url('admin/moderators?forum_id=' . $this->input->post('forum_id')));
                 } else {
-                    // Redirect with warning: moderator already exists
+                    
+                    $this->session->set_flashdata('alert', array(
+                        'class'   => 'alert-warning',
+                        'message' => "{$user->username} already exists as a moderator of this forum."
+                    ));
+
+                    redirect(base_url('admin/moderators?forum_id=' . $this->input->post('forum_id')));
                 }
             } else {
-                // Redirect with error: invalid user
+                
+                $this->session->set_flashdata('alert', array(
+                    'class'   => 'alert-error',
+                    'message' => "The username \"{$this->input->post('username')}\" does not exist."
+                ));
+
+                redirect(base_url('admin/moderators?forum_id=' . $this->input->post('forum_id')));
             }
         } else {
-            // Invalid parameters
+            
+            $this->session->set_flashdata('alert', array(
+                'class'   => 'alert-error',
+                'message' => "Invalid parameters."
+            ));
+
+            redirect(base_url('admin/moderators?forum_id=' . $this->input->post('forum_id')));
         }
     }
 
