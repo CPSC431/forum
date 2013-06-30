@@ -9,7 +9,12 @@ class Forum_Model extends DataMapper
             'class' => 'thread_model',
             'join_other_as' => 'thread',
             'join_self_as' => 'forum',
-        )
+        ),
+        'user_access_model' => array(
+            'class' => 'user_access_model',
+            'join_other_as' => 'user_access',
+            'join_self_as' => 'forum',
+        ),
     );
 
     protected $thread_model;
@@ -24,6 +29,11 @@ class Forum_Model extends DataMapper
     public function url()
     {
         return base_url('forum/' . $this->slug);
+    }
+
+    public function photoUrl()
+    {
+        return base_url('photo/forum/' . $this->id);
     }
 
     public function threads()

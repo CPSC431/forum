@@ -41,6 +41,7 @@ class MY_Controller extends CI_Controller {
             'id'        => $user->id,
             'username'  => $user->username,
             'full_name' => $user->full_name,
+            'admin'     => $user->admin
         ));
     }
 

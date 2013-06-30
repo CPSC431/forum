@@ -1,0 +1,80 @@
+{% extends "master.html" %}
+
+{% block content %}
+    <h1><i class="icon-cog"></i> Administration</h1>
+    <ul class="nav nav-pills">
+        <li class="active"><a href="/admin">Forums</a></li>
+        <li><a href="/admin/users">Users</a></li>
+    </ul>
+    <table class="table table-bordered table-hover table-striped" style="background-color:#fff">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th><i class="icon-picture"></i></th>
+                <th><i class="icon-font"></i> Name</th>
+                <th style="width:60%"><i class="icon-align-left"></i> Description</th>
+                <th><i class="icon-user"></i> Moderators</th>
+                <th style="width:85px"><i class="icon-cog"></i></th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for forum in forums %}
+                <tr>
+                    <td><a href="{{ forum.url() }}">{{ forum.id }}</a></td>
+                    <td><a href="{{ forum.url() }}"><img class="thumbnail" style="max-width:100px;max-height:100px" src="{{ forum.photoUrl() }}" /></a></td>
+                    <td><a href="{{ forum.url() }}">{{ forum.name }}</a></td>
+                    <td>{{ forum.description }}</td>
+                    <td>
+                        {# {{ forum.moderatorCount() }} #}
+                        <a href="{{ base_url('admin/moderators?forum_id=') ~ forum.id }}" class="btn"><i class="icon-cog"></i> Moderators</a>
+                    </td>
+                    <td>
+                        <a class="btn btn-info" href="{{ base_url('admin/forum/edit/') ~ forum.id }}"><i class="icon-edit icon-white"></i></a>
+                        <a class="btn btn-danger" href="{{ base_url('admin/forum/delete/') ~ forum.id }}" onclick="javascript:return confirm('Are you sure you wish to delete this post?')"><i class="icon-trash icon-white"></i></a>
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="#forum-modal" role="button" class="btn btn-success btn-large" data-toggle="modal"><i class="icon-plus"></i> Create a new forum</a>
+
+    <!-- Forum Modal -->
+    <div id="forum-modal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="forumModalLabel" aria-hidden="true">
+
+        {{ form_open_multipart('admin/forum/create', { id: 'forum-form', style: 'margin:0' })|raw }}
+        
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+            <h3 id="forumModalLabel">Create a forum</h3>
+        </div>
+        <div class="modal-body">
+
+            <div id="forum-status"></div>
+
+                <div class="control-group">
+                    {{ form_label('Name:', 'name')|raw }}
+                    {{ form_input({ name: 'name', id: 'name' })|raw }}
+                </div>
+
+                <div class="control-group">
+                    {{ form_label('Photo:', 'photo')|raw }}
+                    {{ form_upload({ name: 'photo', id: 'photo' })|raw }}
+                </div>
+
+                <div class="control-group">
+                    {{ form_label('Description:', 'description')|raw }}
+                    {{ form_textarea({ name: 'description', id: 'description' })|raw }}
+                </div>
+
+        </div>
+        <div class="modal-footer">
+            <button class="btn" data-dismiss="modal" aria-hidden="true" id="close-forum">Close</button>
+            <button type="submit" class="btn btn-primary" id="submit-forum"><span id="forum-form-spinner"></span> Create forum</button>
+        </div>
+
+        {{ form_close()|raw }}
+
+    </div>
+
+{% endblock %}

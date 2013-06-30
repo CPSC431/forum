@@ -4,9 +4,16 @@
 	{% include "sidebar.html" %}
 
 	<div class="span9">
-		<h1>{{ forum.name }}</h1>
-		<p>{{ forum.description }}</p>
-
+		<div class="fluid-row">
+			<div class="span4">
+				<img class="thumbnail" src="{{ forum.photoUrl() }}" style="max-width:200px;max-height:200px" /> 
+			</div>
+			<div class="span8">
+				<h1>{{ forum.name }}</h1>
+				<p>{{ forum.description }}</p>
+			</div>
+		</div>
+		
 		<div class="forums-container">
 			
 			<div class="row-fluid">

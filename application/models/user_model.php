@@ -15,5 +15,10 @@ class User_Model extends DataMapper
             'join_other_as' => 'post',
             'join_self_as' => 'user',
         ),
+        'user_access_model' => array(
+            'class' => 'user_access_model',
+            'join_other_as' => 'user_access',
+            'join_self_as' => 'user',
+        ),
     );
 }

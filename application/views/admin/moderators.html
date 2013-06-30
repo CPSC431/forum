@@ -1,0 +1,54 @@
+{% extends "master.html" %}
+
+{% block content %}
+    <h1><i class="icon-cog"></i> Moderators of {{ forum.name }}</h1>
+    <ul class="nav nav-pills">
+        <li><a href="/admin">Forums</a></li>
+        <li><a href="/admin/users">Users</a></li>
+    </ul>
+
+    <table class="table table-bordered table-hover table-striped" style="background-color:#fff">
+        <thead>
+            <tr>
+                <th><i class="icon-user"></i> Username</th>
+                <th><i class="icon-font"></i> Name</th>
+                <th><i class="icon-clock"></i> Added</th>
+                <th><i class="icon-cog"></i> Settings</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for moderator in moderators %}
+            {% set moderatorUser = moderator.user() %}
+                <tr>
+                    <td>{{ moderatorUser.username }}</td>
+                    <td>{{ moderatorUser.full_name }}</td>
+                    <td>{{ moderator.created_at }}</td>
+                    <td>
+                        <a
+                            class="btn btn-danger"
+                            href="{{ base_url('admin/moderators/delete?user_id=') ~ moderator.user_id ~ '&forum_id=' ~ forum.id }}"
+                            onclick="javascript:return confirm('Are you sure you wish to remove this user\'s moderator privileges?')"
+                        ><i class="icon-trash icon-white"></i></a>
+                    </td>
+                </tr>
+            {% endfor %}
+
+            <tr>
+                <td colspan="4">
+                    {{ form_open('admin/moderators/create', { id: 'forum-form', style: 'margin:0', class: 'form-inline' })|raw }}
+
+                    {{ form_hidden('forum_id', forum.id)|raw }}
+
+                    {{ form_label('Add new user:', 'username')|raw }}<br />
+                    <div class="input-prepend">
+                        <span class="add-on"><i class="icon-user"></i></span>
+                        {{ form_input({ name: 'username', id: 'username', placeholder: 'Username...', class: 'input-large' })|raw }}
+                    </div>
+                    
+                    <button type="submit" class="btn btn-success"><i class="icon-plus"></i> Add</button>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+
+{% endblock %}

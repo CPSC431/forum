@@ -13,7 +13,7 @@ class Post_Model extends DataMapper
         'user_model' => array(
             'class' => 'user_model',
             'join_other_as' => 'user',
-            'join_self_as' => 'thread',
+            'join_self_as' => 'post',
         ),
     );
 

@@ -43,7 +43,7 @@
 
   <body>
 
-    <div class="navbar navbar-fixed-top">
+    <div class="navbar navbar-fixed-top {% if admin %}navbar-inverse{% endif %}">
       <div class="navbar-inner">
         <div class="container-fluid">
           <button type="button" class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
@@ -72,7 +72,9 @@
                 <li class="dropdown">
                   <a class="dropdown-toggle" href="#" data-toggle="dropdown"><i class="icon-user"></i> {{ get_userdata('user').username }} <strong class="caret"></strong></a>
                   <ul class="dropdown-menu">
-                    <li><a href="{{ base_url('account/profile') }}"><i class="icon-user"></i> Profile</a></li>
+                    {% if get_userdata('user').admin == 1 %}
+                    <li><a href="{{ base_url('admin') }}"><i class="icon-cog icon-spin"></i> Admin</a></li>
+                    {% endif %}
                     <li class="divider"></li>
                     <li><a href="{{ base_url('/account/logout') }}"><i class="icon-off"></i> Logout</a></li>
                   </ul>
