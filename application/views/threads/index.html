@@ -10,12 +10,11 @@
 
 		{% for post in posts %}
 		<div class="row-fluid">
-			<div class="span4">
+			<div class="span12">
 				<strong>{{ post.user.username }}</strong> -
 				<em>{{ timespan(strtotime(post.updated_at))}} ago</em>
-			</div>
-			<div class="span8">
-				{{ post.content }}
+
+				<div class="well">{{ post.content }}</div>
 
 				{% if files %}
 				files
