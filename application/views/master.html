@@ -64,9 +64,6 @@
                 <a href="{{ base_url('messages') }}">Messages</a>
               </li>
             </ul>
-            <form action="{{ base_url('search') }}" method="get" class="navbar-search pull-left">
-              <input type="text" name="q" class="search-query" placeholder="Search" value="" style="margin:0 auto;">
-            </form>
             {% if get_userdata('user') %}
               <ul class="nav pull-right">
                 <li class="dropdown">
