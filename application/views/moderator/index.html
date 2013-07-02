@@ -1,0 +1,47 @@
+{% extends "master.html" %}
+
+{% block content %}
+    <h1><i class="icon-cog"></i> {{ forum.name }}</h1>
+    <ul class="nav nav-pills">
+        <li class="active"><a href="{{ base_url('moderator/forum') ~ '/' ~ forum.id }}">Forums</a></li>
+        <li><a href="{{ base_url('moderator/users') ~ '/' ~ forum.id }}">Users</a></li>
+    </ul>
+
+    {{ form_open_multipart('moderator/edit', { id: 'forum-form', style: 'margin:0' })|raw }}
+
+    {{ form_hidden('forum_id', forum.id)|raw }}
+    
+    <fieldset>
+
+        <div class="control-group">
+            {{ form_label('Name:', 'name')|raw }}
+            {{ form_input({ name: 'name', id: 'name', value: forum_values.name })|raw }}
+        </div>
+
+        <div class="control-group">
+            {% if forum.picture != null %}
+            <img src="{{ forum.photoUrl() }}" style="max-width:100px;max-height:100px" class="thumbnail" />
+            {% else %}
+            <div class="thumbnail">
+                <i class="icon-question" style="font-size:100px"></i>
+            </div>
+            {% endif %}
+            {{ form_label('Photo:', 'photo')|raw }}
+            {{ form_upload({ name: 'photo', id: 'photo' })|raw }}
+        </div>
+
+        <div class="control-group">
+            {{ form_label('Description:', 'description')|raw }}
+            {{ form_textarea({ name: 'description', id: 'description', value: forum.description })|raw }}
+        </div>
+
+        <div class="form-actions">
+            <button type="submit" class="btn btn-primary" id="submit-forum"><span id="forum-form-spinner"></span> Edit forum</button>
+            <a href="{{ forum.url() }}" class="btn">&laquo; View Forum</a>
+        </div>
+
+    </fieldset>
+
+    {{ form_close()|raw }}
+
+{% endblock %}

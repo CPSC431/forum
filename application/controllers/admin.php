@@ -25,7 +25,7 @@ class Admin extends MY_Controller
 
     public function index($id = null)
     {
-        $forums = $this->forum_model->get();
+        $forums = $this->forum_model->where('deleted_at', '0000-00-00 00:00:00')->get();
 
         $this->twig->display('admin/index.html', array(
             'admin' => true,
@@ -33,7 +33,7 @@ class Admin extends MY_Controller
         ));
     }
 
-    public function forum($method)
+    public function forum($method, $id = null)
     {
         if ($method == 'create') {
 
@@ -42,11 +42,11 @@ class Admin extends MY_Controller
             // $this->form_validation->set_rules('photo', 'Photo', '');
 
             if ( ! $this->form_validation->run()) {
+
                 $this->session->set_flashdata('validation_errors', validation_errors());
                 $this->session->set_flashdata('old_data', $this->input->post());
                 redirect($_SERVER['HTTP_REFERER']);
-            } else if (!isset($_FILES['photo']) || empty($_FILES['photo']['name'])) {
-                // Deal with no photo uploaded...
+
             }
 
             $forum = $this->forum_model;
@@ -54,6 +54,34 @@ class Admin extends MY_Controller
             $forum->name = $this->input->post('name');
             $forum->slug = url_title($this->input->post('name'), '-', true);
             $forum->description = $this->input->post('description');
+
+            if (isset($_FILES['photo']) && $_FILES['photo']['error'] != 4) {
+                                    
+                if (!in_array($_FILES['photo']['type'], array('image/jpeg', 'image/pjpeg', 'image/x-png', 'image/bmp', 'image/x-windows-bmp', 'image/gif'))) {
+                    
+                    $this->session->set_flashdata('alert', array(
+                        'class'   => 'alert-error',
+                        'message' => "Image must be a jpg, png, or gif."
+                    ));
+
+                    $this->session->set_flashdata('forum_values', $this->input->post());
+
+                    redirect($_SERVER['HTTP_REFERER']);
+
+                // Image greater than 2 mb?
+                } else if ($_FILES['photo']['size'] > 1024 * 1024 * 2) {
+
+                    $this->session->set_flashdata('alert', array(
+                        'class'   => 'alert-error',
+                        'message' => "Image size must be less than 2 MB."
+                    ));
+
+                    $this->session->set_flashdata('forum_values', $this->input->post());
+
+                    redirect($_SERVER['HTTP_REFERER']);
+
+                }
+            }
 
             $forum->picture = file_get_contents($_FILES['photo']['tmp_name']);
             $forum->picture_mime = $_FILES['photo']['type'];
@@ -70,6 +98,23 @@ class Admin extends MY_Controller
             ));
 
             redirect(base_url('admin'));
+        
+        } else if ($method == 'delete') {
+            $forum = $this->forum_model->where('id', $id)->get(1);
+
+            if ($forum->exists()) {
+
+                $forum->deleted_at = date("Y-m-d H:i:s");
+
+                $forum->save();
+
+                $this->session->set_flashdata('alert', array(
+                    'class'   => 'alert-success',
+                    'message' => "{$forum->name} forum deleted."
+                ));
+
+                redirect(base_url('admin'));
+            }
         }
     }
 

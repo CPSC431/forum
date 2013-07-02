@@ -19,6 +19,7 @@ class MY_Controller extends CI_Controller {
 
         $this->load->library('twig');
         $this->load->helper('date');
+        $this->load->helper('user_object');
 
         $this->twig->add_function('base_url');
         $this->twig->add_function('get_userdata');
@@ -26,6 +27,7 @@ class MY_Controller extends CI_Controller {
         $this->twig->add_function('timespan');
         $this->twig->add_function('now');
         $this->twig->add_function('validation_errors');
+        $this->twig->add_function('get_user_object');
 
 
         // Gather info about the request
@@ -71,6 +73,16 @@ class MY_Controller extends CI_Controller {
         } else {
             return $this->session->userdata('user');
         }
+    }
+
+    protected function user_object()
+    {
+        if ( ! $this->session->userdata('user'))
+            throw new RuntimeException('Logged in user could not be identified. Please reauthenticate.');
+
+        $user_model = new User_Model;
+
+        return $user_model->where('id', $this->user('id'))->get(1);
     }
 
     protected function json_response(array $data, $status = 200)

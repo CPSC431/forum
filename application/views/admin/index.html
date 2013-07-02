@@ -21,7 +21,17 @@
             {% for forum in forums %}
                 <tr>
                     <td><a href="{{ forum.url() }}">{{ forum.id }}</a></td>
-                    <td><a href="{{ forum.url() }}"><img class="thumbnail" style="max-width:100px;max-height:100px" src="{{ forum.photoUrl() }}" /></a></td>
+                    <td>
+                        <a href="{{ forum.url() }}">
+                            {% if forum.picture != null %}
+                            <img src="{{ forum.photoUrl() }}" style="max-width:100px;max-height:100px" class="thumbnail" />
+                            {% else %}
+                            <div class="thumbnail">
+                                <i class="icon-question" style="font-size:100px"></i>
+                            </div>
+                            {% endif %}
+                        </a>
+                    </td>
                     <td><a href="{{ forum.url() }}">{{ forum.name }}</a></td>
                     <td>{{ forum.description }}</td>
                     <td>
@@ -29,8 +39,7 @@
                         <a href="{{ base_url('admin/moderators?forum_id=') ~ forum.id }}" class="btn"><i class="icon-cog"></i> Moderators</a>
                     </td>
                     <td>
-                        <a class="btn btn-info" href="{{ base_url('admin/forum/edit/') ~ forum.id }}"><i class="icon-edit icon-white"></i></a>
-                        <a class="btn btn-danger" href="{{ base_url('admin/forum/delete/') ~ forum.id }}" onclick="javascript:return confirm('Are you sure you wish to delete this post?')"><i class="icon-trash icon-white"></i></a>
+                        <a class="btn btn-danger" href="{{ base_url('admin/forum/delete') ~ '/' ~ forum.id }}" onclick="javascript:return confirm('Are you sure you wish to delete this post?')"><i class="icon-trash icon-white"></i> Delete</a>
                     </td>
                 </tr>
             {% endfor %}

@@ -43,6 +43,11 @@
 
   <body>
 
+    {% set active_user = get_user_object() %}
+    {% if active_user %}
+      {% set unread_messages = active_user.unread_message_count() %}
+    {% endif %}
+
     <div class="navbar navbar-fixed-top {% if admin %}navbar-inverse{% endif %}">
       <div class="navbar-inner">
         <div class="container-fluid">
@@ -61,17 +66,32 @@
                 <a href="{{ base_url('forum') }}">Forum</a>
               </li>
               <li {% if active == 'messages' %}class="active"{% endif %}>
-                <a href="{{ base_url('messages') }}">Messages</a>
+                <a href="{{ base_url('messages') }}">
+                  {% if active_user and unread_messages %}
+                    <span class="label label-info">{{ unread_messages }}</span>
+                  {% endif %}
+                  Messages
+                </a>
               </li>
             </ul>
-            {% if get_userdata('user') %}
+            {% if active_user %}
               <ul class="nav pull-right">
                 <li class="dropdown">
-                  <a class="dropdown-toggle" href="#" data-toggle="dropdown"><i class="icon-user"></i> {{ get_userdata('user').username }} <strong class="caret"></strong></a>
+                  <a class="dropdown-toggle" href="#" data-toggle="dropdown"><i class="icon-user"></i> {{ active_user.username }} <strong class="caret"></strong></a>
                   <ul class="dropdown-menu">
-                    {% if get_userdata('user').admin == 1 %}
+                    {% if active_user.admin == 1 %}
                     <li><a href="{{ base_url('admin') }}"><i class="icon-cog icon-spin"></i> Admin</a></li>
                     {% endif %}
+                    <li>
+                      <a href="{{ base_url('messages') }}">
+                        {% if active_user and unread_messages %}
+                          <span class="label label-info">{{ unread_messages }}</span>
+                        {% else %}
+                          <i class="icon-envelope"></i>
+                        {% endif %}
+                        Messages
+                      </a>
+                    </li>
                     <li class="divider"></li>
                     <li><a href="{{ base_url('/account/logout') }}"><i class="icon-off"></i> Logout</a></li>
                   </ul>

@@ -17,7 +17,7 @@ class Forum extends MY_Controller
 
     public function index($id = null)
     {
-        $forums = $this->forum_model->get();
+        $forums = $this->forum_model->where('deleted_at', '0000-00-00 00:00:00')->get();
         
 
         $this->twig->display('forum/index.html', array(
@@ -28,13 +28,24 @@ class Forum extends MY_Controller
 
     public function view($slug)
     {
-        $forum = $this->forum_model->where('slug', $slug)->get(1);
+        $forum = $this->forum_model->where('slug', $slug)->where('deleted_at', '0000-00-00 00:00:00')->get(1);
         $threads = $forum->threads();
+        $user = $this->user_model->where('id', $this->user('id'))->get(1);
+
+        if ($user->is_banned_from($forum)) {
+            $this->session->set_flashdata('alert', array(
+                'class'   => 'alert-error',
+                'message' => "Sorry, you have been banned from {$forum->name}."
+            ));
+
+            redirect($_SERVER['HTTP_REFERER']);
+        }
 
         $this->twig->display('forum/view.html', array(
-            'active' => 'forum',
-            'forum'  => $forum,
-            'threads' => $threads
+            'active'  => 'forum',
+            'forum'   => $forum,
+            'threads' => $threads,
+            'user'    => $user,
         ));
     }
 }

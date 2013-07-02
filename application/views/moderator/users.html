@@ -1,0 +1,44 @@
+{% extends "master.html" %}
+
+{% block content %}
+    <h1><i class="icon-cog"></i> {{ forum.name }}</h1>
+    <ul class="nav nav-pills">
+        <li><a href="{{ base_url('moderator/forum') ~ '/' ~ forum.id }}">Forums</a></li>
+        <li class="active"><a href="{{ base_url('moderator/users') ~ '/' ~ forum.id }}">Users</a></li>
+    </ul>
+
+    <table class="table table-bordered table-hover table-striped" style="background-color:#fff">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th><i class="icon-user"></i> Username</th>
+                <th><i class="icon-flag"></i> Status</th>
+                <th style="width:250px"><i class="icon-cog"></i></th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for user in users %}
+            {% set user_banned = user.is_banned_from(forum) %}
+                <tr>
+                    <td>{{ user.id }}</td>
+                    <td>{{ user.username }}</td>
+                    <td>
+                        {% if user_banned %}
+                            <span class="label label-warning">Banned</span>
+                        {% else %}
+                            <span class="label label-success">Ok</span>
+                        {% endif %}
+                    </td>
+                    <td>
+                        {% if user_banned %}
+                            <a class="btn btn-success" href="{{ base_url('moderator/user_action/reinstate') ~ '?user_id=' ~ user.id ~ '&forum_id=' ~ forum.id }}">Reinstate</a>
+                        {% else %}
+                            <a class="btn btn-warning" href="{{ base_url('moderator/user_action/ban') ~ '?user_id=' ~ user.id ~ '&forum_id=' ~ forum.id }}">Ban</a>
+                        {% endif %}
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+{% endblock %}

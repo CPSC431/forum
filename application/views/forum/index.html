@@ -4,12 +4,21 @@
 	{% include "sidebar.html" %}
 
 	<div class="span9">
-		<h1>My Awesome Forum</h1>
+		<h1>My Forum</h1>
 
 		<div class="forums-container">
 			{% for forum in forums %}
 			<div class="row-fluid">
-				<div class="forum-topic span8">
+				<div class="forum-thumbnail span2">
+					{% if forum.picture != null %}
+					<img src="{{ forum.photoUrl() }}" style="max-width:100px;max-height:100px" class="thumbnail" />
+					{% else %}
+					<div class="thumbnail">
+						<i class="icon-question" style="font-size:100px"></i>
+					</div>
+					{% endif %}
+				</div>
+				<div class="forum-topic span6">
 					<h3><a href="{{ forum.url() }}">{{ forum.name }}</a></h3>
 					<p>
 						{{ forum.description }}

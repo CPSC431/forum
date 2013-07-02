@@ -6,11 +6,21 @@
 	<div class="span9">
 		<div class="fluid-row">
 			<div class="span4">
-				<img class="thumbnail" src="{{ forum.photoUrl() }}" style="max-width:200px;max-height:200px" /> 
+				{% if forum.picture != null %}
+				<img src="{{ forum.photoUrl() }}" style="max-width:200px;max-height:200px" class="thumbnail" />
+				{% else %}
+				<div class="thumbnail">
+					<i class="icon-question" style="font-size:100px"></i>
+				</div>
+				{% endif %}
 			</div>
 			<div class="span8">
 				<h1>{{ forum.name }}</h1>
 				<p>{{ forum.description }}</p>
+				
+				{% if user.is_moderator_of(forum) %}
+				<a href="{{ base_url('moderator/forum') ~ '/' ~ forum.id }}" class="btn btn-info">Moderate Forum</a>
+				{% endif %}
 			</div>
 		</div>
 		

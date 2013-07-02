@@ -181,6 +181,12 @@ span a:hover {
 
 }
 
+.forums-container .forum-thumbnail div {
+  margin-top:20px;
+  width:70px;
+  height:100px;
+}
+
 .forums-container .forum-topic {
 
 }

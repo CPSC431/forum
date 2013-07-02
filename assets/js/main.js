@@ -20,7 +20,13 @@
         ? $(e.target).parent('a.message-user').attr('data-username')
         : $(e.target).attr('data-username')
 
+      var subject = (typeof $(e.target).parent('a.message-user').attr('data-subject') !== "undefined")
+        ? $(e.target).parent('a.message-user').attr('data-subject')
+        : $(e.target).attr('data-subject')
+
       messageModal.find('#message-form #to').val(username);
+      messageModal.find('#message-form #subject').val(subject);
+
 
       messageModal.on('shown', function() {
         messageModal.find('#message-form #subject').focus();

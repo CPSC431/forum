@@ -11,7 +11,21 @@
 		{% for post in posts %}
 		<div class="row-fluid">
 			<div class="span12">
-				<strong>{{ post.user.username }}</strong> -
+				{% if get_userdata('user').id == post.user.id %}
+					{{ post.user.username }}
+				{% else %}
+					<strong>
+						<a
+							class="message-user"
+							data-username="{{ post.user.username }}"
+							data-subject="RE: {{ thread.subject }}"
+							href="#"
+						>
+							<i class="icon-mail-reply" title="Reply"></i> {{ post.user.username }}
+						</a>
+					</strong>
+				{% endif %}
+				-
 				<em>{{ timespan(strtotime(post.updated_at))}} ago</em>
 
 				<div class="well">{{ post.content }}</div>
@@ -22,8 +36,6 @@
 			</div>
 		</div>
 		{% endfor %}
-
-
 
 
 		<div class="post-row row-fluid">
@@ -48,5 +60,7 @@
 			</div>
 		</div>
 	</div>
+
+	{% include "messages/modal.html" %}
 
 {% endblock %}
