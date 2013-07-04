@@ -33,7 +33,6 @@
 						<tr>
 							<th>Topic</th>
 							<th>Started By</th>
-							<th>Stats</th>
 							<th>Latest Post</th>
 						</tr>
 					</thead>
@@ -42,7 +41,6 @@
 						<tr>
 							<td><a href="{{ thread.url }}">{{ thread.subject }}</a></td>
 							<td>{{ thread.user.username }}</td>
-							<td>Posts: {{ thread.posts.count }}</td>
 							<td>
 								{% if thread.latest_post.id %}
 									By <strong>{{ thread.latest_post.user.username }}</strong>
@@ -55,11 +53,37 @@
 						{% endfor %}
 					</tbody>
 				</table>
-
-				<a href="{{ base_url('threads/create') }}?forum={{ forum.id }}" class="btn btn-success"><i class="icon-plus"></i> Create a Thread</a>
+				<a href="#thread-modal" class="btn btn-success" role="button" data-toggle="modal"><i class="icon-plus"></i> Create a Thread</a>
 			</div>
 			
 		</div>
+	</div>
+
+	<!-- Modal -->
+	<div id="thread-modal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="threadModalLabel" aria-hidden="true">
+
+		{{ form_open('threads/create', { id: 'thread-form', style: 'margin:0' })|raw }}
+
+	    <div class="modal-header">
+	        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+	        <h3 id="threadModalLabel">Create a thread</h3>
+	    </div>
+	    <div class="modal-body">
+
+	    	{{ form_hidden('forum_id', forum.id)|raw }}
+
+            <div class="control-group">
+                {{ form_label('Thread Subject:', 'subject')|raw }}
+                {{ form_input({ name: 'subject', id: 'subject', class: 'input-xlarge' })|raw }}
+            </div>
+
+	    </div>
+	    <div class="modal-footer">
+	        <button class="btn" data-dismiss="modal" aria-hidden="true" id="close-thread">Close</button>
+	        <button class="btn btn-primary" id="submit-thread"><span id="thread-form-spinner"></span>Create Thread</button>
+	    </div>
+
+	    {{ form_close()|raw }}
 	</div>
 
 {% endblock %}

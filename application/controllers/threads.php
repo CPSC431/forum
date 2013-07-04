@@ -32,4 +32,33 @@ class Threads extends MY_Controller
         ));
     }
 
+    public function create()
+    {
+        if ($this->input->post('forum_id') && $this->input->post('subject')) {
+
+            $forum = $this->forum_model->where('id', $this->input->post('forum_id'))->get(1);
+
+            if ($forum->exists()) {
+
+                $thread = $this->thread_model;
+
+                $thread->forum_id = $this->input->post('forum_id');
+                $thread->creator_id = $this->user('id');
+                $thread->subject = $this->input->post('subject');
+
+                $thread->updated_at = date("Y-m-d H:i:s");
+                $thread->created_at = date("Y-m-d H:i:s");
+
+                $thread->save();
+
+                $this->session->set_flashdata('alert', array(
+                    'class'   => 'alert-success',
+                    'message' => 'Your new thread has been created.',
+                ));
+
+                redirect(base_url('threads/' . $thread->id));
+            }
+        }
+    }
+
 }

@@ -60,7 +60,7 @@ class Account extends MY_Controller
                 }
             } else {
                 $this->twig->display('account/login.html', array(
-                    'title' => 'testing',
+                    'title' => 'Login',
                     'form'  => array('class' => 'form-signin'),
                     'error' => 'Invalid login. Please try again.'
                 ));
@@ -68,7 +68,7 @@ class Account extends MY_Controller
 
         } else {
             $this->twig->display('account/login.html', array(
-                'title' => 'testing',
+                'title' => 'Login',
                 'form' => array('class' => 'form-signin')
             ));
         }

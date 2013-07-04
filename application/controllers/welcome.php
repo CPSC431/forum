@@ -24,7 +24,7 @@ class Welcome extends MY_Controller {
         $this->twig->add_function('base_url');
         $this->twig->add_function('session_get');
 
-		$this->twig->display('main.html', array('title' => 'testing'));
+		$this->twig->display('main.html', array());
 	}
 }
 
