@@ -37,6 +37,38 @@ class Posts extends MY_Controller
 
         $post = $this->post_model;
 
+        if (isset($_FILES['photo']) && $_FILES['photo']['error'] != 4) {
+                                
+            if (!in_array($_FILES['photo']['type'], array('image/jpeg', 'image/pjpeg', 'image/x-png', 'image/png', 'image/bmp', 'image/x-windows-bmp', 'image/gif'))) {
+                
+                $this->session->set_flashdata('alert', array(
+                    'class'   => 'alert-error',
+                    'message' => "Image must be a jpg, png, or gif."
+                ));
+
+                $this->session->set_flashdata('forum_values', $this->input->post());
+
+                redirect($_SERVER['HTTP_REFERER']);
+
+            // Image greater than 2 mb?
+            } else if ($_FILES['photo']['size'] > 1024 * 1024 * 2) {
+
+                $this->session->set_flashdata('alert', array(
+                    'class'   => 'alert-error',
+                    'message' => "Image size must be less than 2 MB."
+                ));
+
+                $this->session->set_flashdata('forum_values', $this->input->post());
+
+                redirect($_SERVER['HTTP_REFERER']);
+
+            }
+
+            $post->picture = file_get_contents($_FILES['photo']['tmp_name']);
+            $post->picture_mime = $_FILES['photo']['type'];
+            $post->picture_size = $_FILES['photo']['size'];
+        }
+
         $post->thread_id = $this->input->get('thread');
         $post->user_id = $this->user('id');
         $post->content = $this->input->post('content');
@@ -45,6 +77,13 @@ class Posts extends MY_Controller
         $post->created_at = date("Y-m-d H:i:s");
 
         $post->save();
+
+        $this->session->set_flashdata('alert', array(
+            'class'   => 'alert-success',
+            'message' => 'Your reply has been posted.',
+        ));
+
+        redirect(base_url('threads/' . $post->thread_id));
     }
 
 }

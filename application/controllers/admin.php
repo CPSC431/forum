@@ -57,7 +57,7 @@ class Admin extends MY_Controller
 
             if (isset($_FILES['photo']) && $_FILES['photo']['error'] != 4) {
                                     
-                if (!in_array($_FILES['photo']['type'], array('image/jpeg', 'image/pjpeg', 'image/x-png', 'image/bmp', 'image/x-windows-bmp', 'image/gif'))) {
+                if (!in_array($_FILES['photo']['type'], array('image/jpeg', 'image/pjpeg', 'image/x-png', 'image/png', 'image/bmp', 'image/x-windows-bmp', 'image/gif'))) {
                     
                     $this->session->set_flashdata('alert', array(
                         'class'   => 'alert-error',

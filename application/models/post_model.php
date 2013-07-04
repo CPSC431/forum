@@ -30,4 +30,9 @@ class Post_Model extends DataMapper
     {
         return $this->user_model->where_related('post_model', 'id', $this->id)->get(1);
     }
+
+    public function photoUrl()
+    {
+        return base_url('photo/post/' . $this->id);
+    }
 }

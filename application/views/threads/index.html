@@ -28,11 +28,17 @@
 				-
 				<em>{{ timespan(strtotime(post.updated_at))}} ago</em>
 
-				<div class="well">{{ post.content }}</div>
+				<div class="well">
+					{{ post.content }}
 
-				{% if files %}
-				files
-				{% endif %}
+					{% if post.picture != '' %}
+					
+					<a href="{{ post.photoUrl() }}">
+						<img src="{{ post.photoUrl() }}" style="max-width:100px;max-height:100px" class="thumbnail" />
+					</a>
+					
+					{% endif %}
+				</div>
 			</div>
 		</div>
 		{% endfor %}
@@ -49,8 +55,8 @@
 				{{ form_label('Your post:', 'content')|raw }}
 				{{ form_textarea({ name: 'content', id: 'content', style: 'width:500px;height:200px', value: old_data.content })|raw }}
 
-				{{ form_label('Attach file:', 'file')|raw }}
-				{{ form_upload({ name: 'file', id: 'file' })|raw }}
+				{{ form_label('Attach photo:', 'photo')|raw }}
+				{{ form_upload({ name: 'photo', id: 'photo' })|raw }}
 
 				<div class="form-actions">
 				{{ form_submit({ name: 'submit', id: 'submit', class: 'btn btn-primary', value: 'Post Reply' })|raw }}
