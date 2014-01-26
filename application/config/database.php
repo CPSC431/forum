@@ -45,7 +45,6 @@
 | the active record class
 */
 
-$active_group = ENV;
 $active_record = TRUE;
 
 $db['local']['hostname'] = 'localhost';
@@ -64,21 +63,51 @@ $db['local']['swap_pre'] = '';
 $db['local']['autoinit'] = TRUE;
 $db['local']['stricton'] = FALSE;
 
-$db['live']['hostname'] = 'ecsmysql';
-$db['live']['username'] = 'cs431h15';
-$db['live']['password'] = 'oozeanuu';
-$db['live']['database'] = 'cs431h15';
-$db['live']['dbdriver'] = 'mysql';
-$db['live']['dbprefix'] = '';
-$db['live']['pconnect'] = TRUE;
-$db['live']['db_debug'] = TRUE;
-$db['live']['cache_on'] = FALSE;
-$db['live']['cachedir'] = '';
-$db['live']['char_set'] = 'utf8';
-$db['live']['dbcollat'] = 'utf8_general_ci';
-$db['live']['swap_pre'] = '';
-$db['live']['autoinit'] = TRUE;
-$db['live']['stricton'] = FALSE;
+// $db['live']['hostname'] = 'ecsmysql';
+// $db['live']['username'] = 'cs431h15';
+// $db['live']['password'] = 'oozeanuu';
+// $db['live']['database'] = 'cs431h15';
+// $db['live']['dbdriver'] = 'mysql';
+// $db['live']['dbprefix'] = '';
+// $db['live']['pconnect'] = TRUE;
+// $db['live']['db_debug'] = TRUE;
+// $db['live']['cache_on'] = FALSE;
+// $db['live']['cachedir'] = '';
+// $db['live']['char_set'] = 'utf8';
+// $db['live']['dbcollat'] = 'utf8_general_ci';
+// $db['live']['swap_pre'] = '';
+// $db['live']['autoinit'] = TRUE;
+// $db['live']['stricton'] = FALSE;
+ 
+$db['production']['hostname'] = $_SERVER["DB1_HOST"];
+$db['production']['username'] = $_SERVER["DB1_USER"];
+$db['production']['password'] = $_SERVER["DB1_PASS"];
+$db['production']['database'] = $_SERVER["DB1_NAME"];
+$db['production']['port']     = $_SERVER["DB1_PORT"];
+$db['production']['dbdriver'] = "mysql";
+$db['production']['dbprefix'] = "";
+$db['production']['pconnect'] = TRUE;
+$db['production']['db_debug'] = TRUE;
+$db['production']['cache_on'] = FALSE;
+$db['production']['cachedir'] = "";
+$db['production']['char_set'] = "utf8";
+$db['production']['dbcollat'] = "utf8_general_ci";
+$db['production']['swap_pre'] = '';
+$db['production']['autoinit'] = TRUE;
+$db['production']['stricton'] = FALSE;
+ 
+// Switch active_group based on environment
+switch (ENVIRONMENT) {
+    case 'production':
+        $active_group = 'production';
+    break;
+ 
+    // add additional cases for more environments
+ 
+    default:
+        $active_group = 'local';
+    break;
+}
 
 
 /* End of file database.php */

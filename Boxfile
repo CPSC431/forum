@@ -1,0 +1,10 @@
+web1:
+  name: CPSC-431
+  shared_writable_dirs:
+    - application/cache
+    - application/logs
+  php_extensions:
+    - mysql
+     
+db1:
+  name: cpsc431-forum

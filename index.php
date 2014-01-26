@@ -19,6 +19,22 @@
  *
  */
 	define('ENVIRONMENT', 'development');
+
+	// Switch environment based on global var
+	if (isset($_SERVER['PLATFORM']))
+	{
+	    switch ($_SERVER['PLATFORM']) {
+	 
+	        case 'PAGODA':
+	            define('ENVIRONMENT', 'production');
+	        break;
+	    // add additional cases for more environments
+	    }
+	}
+	else
+	{
+	    define('ENVIRONMENT', 'development');
+	}
 /*
  *---------------------------------------------------------------
  * ERROR REPORTING
