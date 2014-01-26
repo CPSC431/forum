@@ -20,15 +20,9 @@
  */
 
 	// Switch environment based on global var
-	if (isset($_SERVER['PLATFORM']))
+	if (isset($_SERVER["DB1_HOST"]))
 	{
-	    switch ($_SERVER['PLATFORM']) {
-	 
-	        case 'PAGODA':
-	            define('ENVIRONMENT', 'production');
-	        break;
-	    // add additional cases for more environments
-	    }
+	    define('ENVIRONMENT', 'production');
 	}
 	else
 	{

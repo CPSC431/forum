@@ -14,7 +14,7 @@
 | path to your installation.
 |
 */
-$config['base_url']	= (ENV == 'local') ? '' : 'http://ecs.fullerton.edu/~cs431h15/project/';
+$config['base_url']	= (ENV == 'local') ? '' : 'http://cpsc431-forum.gopagoda.com';
 
 /*
 |--------------------------------------------------------------------------
