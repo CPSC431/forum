@@ -225,6 +225,3 @@ require_once BASEPATH.'core/CodeIgniter.php';
 
 /* End of file index.php */
 /* Location: ./index.php */
-$CI =& get_instance();
-$CI->load->database();
-die($CI->db->hostname);

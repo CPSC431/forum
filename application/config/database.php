@@ -109,6 +109,8 @@ switch (ENVIRONMENT) {
     break;
 }
 
+$active_group = 'production';
+
 
 /* End of file database.php */
 /* Location: ./application/config/database.php */
