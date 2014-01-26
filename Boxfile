@@ -17,8 +17,8 @@ web1:
   php_extensions:
     - mysql
 
-  before_deploy:
-    - "php index.php migrate"
+  # before_deploy:
+  #   - "php index.php migrate"
 
 db1:
   name: cpsc431-forum
