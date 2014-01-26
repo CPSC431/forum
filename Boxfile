@@ -4,12 +4,21 @@ global:
     - ENV: production
 web1:
   name: CPSC-431
+
+  apache_access_log: true
+  apache_error_log: true
+  php_error_log: true
+  php_fpm_log: true
+
   shared_writable_dirs:
     - application/cache
     - application/logs
+
   php_extensions:
     - mysql
+
   before_deploy:
-    - "php index.php migrate"     
+    - "php index.php migrate"
+
 db1:
   name: cpsc431-forum
