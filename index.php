@@ -20,9 +20,9 @@
  */
 
 	// Switch environment based on global var
-	if (isset($_SERVER["DB1_HOST"]))
+	if (isset($_SERVER["ENV"]))
 	{
-	    define('ENVIRONMENT', 'production');
+	    define('ENVIRONMENT', $_SERVER["ENV"]);
 	}
 	else
 	{

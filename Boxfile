@@ -1,3 +1,7 @@
+global:
+  env:
+    - APP_NAME: CPSC-431-Forum
+    - ENV: production
 web1:
   name: CPSC-431
   shared_writable_dirs:
@@ -5,6 +9,7 @@ web1:
     - application/logs
   php_extensions:
     - mysql
-     
+  before_deploy:
+    - "php index.php migrate"     
 db1:
   name: cpsc431-forum
